@@ -1,5 +1,5 @@
 FROM  php:5.6-fpm
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y  --no-install-recommends apt-utils \
     g++ \
     curl \
     openssl \
@@ -9,11 +9,13 @@ RUN apt-get update && apt-get install -y \
     libicu-dev \
     libmcrypt-dev \
     vim 
-RUN apt-get install -y libmcrypt-dev
+RUN apt-get install -y libxml2-dev
+
+RUN docker-php-ext-configure mcrypt --with-mcrypt \
+	&& docker-php-ext-install mcrypt 
+
 RUN docker-php-ext-install pdo_mysql 
-RUN docker-php-ext-configure mcrypt  
 RUN docker-php-ext-configure intl  
-RUN docker-php-ext-install -j$(nproc) mcrypt intl
-RUN docker-php-ext-install intl 
-#RUN docker-php-ext-install intl soap  mbstring 
-RUN pecl install redis && docker-php-ext-enable redis
+RUN docker-php-ext-install intl
+RUN docker-php-ext-install soap  mbstring 
+RUN pecl install redis && docker-php-ext-enable redis 
