@@ -5,36 +5,35 @@ services:
         ports:
             - "80:80"
             - "443:443"
-              #links:
-            #- "phpfpm"
         volumes:
             - ./Sites:/var/www/html/
             - ./conf.d:/etc/nginx/conf.d/
             - ./logs:/log
-              #        extra_hosts:
-              #            -  "wf-database: 192.168.200.5"
-              #            - "dev-wfr-platform-app.loyaltytravelrewards.com: 192.168.200.5"
         network_mode: host
 
     phpfpm:
         build: ./phpfpm
         ports:
             - "9000:9000"
-              #links:
-              # - "mysql"
-              #        extra_hosts:
-              #            -  "wf-database: 192.168.200.5"
-              #            - "dev-wfr-platform-app.loyaltytravelrewards.com: 192.168.200.5"
+            - "9999:9999"
         volumes:
             - ./Sites:/var/www/html
         network_mode: host
-    mysql:
-        build: ./mysql
-        ports:
-            - "3306:3306"
-       #volumes:
-            #         - mysql:/var/lib/mysql/
-        environment:
-            MYSQL_ROOT_PASSWORD : 123456
 
-        network_mode: host
+        #    mysql:
+        #        build: ./mysql
+        #        ports:
+        #            - "3306:3306"
+        #        volumes:
+        #            - ./mysql/data:/var/lib/mysql/
+        #        environment:
+        #            MYSQL_ROOT_PASSWORD : 123456
+        #        network_mode: host
+
+    elastic:
+        build: ./elasticsearch
+        ports:  
+            - "9200:9200"
+            - "9300:9300"
+        volumes:
+            - ./elasticsearch/data:/usr/share/elasticsearch/data
