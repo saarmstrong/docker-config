@@ -22,5 +22,8 @@ RUN pecl install redis && docker-php-ext-enable redis
 
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 RUN printf "xdebug.remote_port=9999\n xdebug.remote_enable=on\n xdebug.remote_connect_back=1 " >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN sed -i -e "s/;error_log = log\/php-fpm.log/error_log = \/var\/log\/php-fpm.log/g" /usr/local/etc/php-fpm.d/www.conf
+RUN sed -i -e "s/;log_level = notice/log_level = debug/g" /usr/local/etc/php-fpm.d/www.conf
+RUN sed -i -e "s/;php_admin_flag[log_errors] = on/;php_admin_flag[log_errors] = on/g" /usr/local/etc/php-fpm.d/www.conf
 
 #RUN sed -i -e "s/;listen.mode = 0660/listen.mode = 0660/g"  \ -e "s/;env\[HOSTNAME\].*\$/env\[APPLICATION_ENV\] = local/g" /etc/php5/fpm/pool.d/www.conf
