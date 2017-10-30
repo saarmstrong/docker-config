@@ -6,9 +6,9 @@ services:
             - "80:80"
             - "443:443"
         volumes:
-            - ./Sites:/var/www/html/
-            - ./conf.d:/etc/nginx/conf.d/
-            - ./logs:/log
+            - ./Sites:/var/www/html/:z
+            - ./conf.d:/etc/nginx/conf.d/:z
+            - ./logs:/log:z
         network_mode: host
 
     phpfpm:
@@ -17,23 +17,29 @@ services:
             - "9000:9000"
             - "9999:9999"
         volumes:
-            - ./Sites:/var/www/html
+            - ./Sites:/var/www/html:z
         network_mode: host
 
-        #    mysql:
-        #        build: ./mysql
-        #        ports:
-        #            - "3306:3306"
-        #        volumes:
-        #            - ./mysql/data:/var/lib/mysql/
-        #        environment:
-        #            MYSQL_ROOT_PASSWORD : 123456
-        #        network_mode: host
+    redis:
+        build: ./redis
+        ports:
+                - "6379:6379"
+        network_mode: host
 
-    elastic:
-        build: ./elasticsearch
-        ports:  
-            - "9200:9200"
-            - "9300:9300"
-        volumes:
-            - ./elasticsearch/data:/usr/share/elasticsearch/data
+#mysql:
+#    build: ./mysql
+#    ports:
+#        - "3306:3306"
+#    volumes:
+#        - ./mysql/data:/var/lib/mysql/
+#    environment:
+#        MYSQL_ROOT_PASSWORD : 123456
+#    network_mode: host
+
+#elastic:
+#    build: ./elasticsearch
+#    ports:  
+#        - "9200:9200"
+#        - "9300:9300"
+#    volumes:
+#        - ./elasticsearch/data:/usr/share/elasticsearch/data:rw
