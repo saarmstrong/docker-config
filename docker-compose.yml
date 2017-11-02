@@ -26,20 +26,21 @@ services:
                 - "6379:6379"
         network_mode: host
 
-    #mysql:
-    #    build: ./mysql
-    #    ports:
-    #        - "3306:3306"
-    #    volumes:
-    #        - ./mysql/data:/var/lib/mysql/:z
-    #    environment:
-    #        MYSQL_ROOT_PASSWORD : 123456
-    #    network_mode: host
-    
-    #elastic:
-    #    build: ./elasticsearch
-    #    ports:  
-    #        - "9200:9200"
-    #        - "9300:9300"
-    #    volumes:
-    #        - ./elasticsearch/data:/usr/share/elasticsearch/data:z
+
+    mysql:
+        build: ./mysql
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./mysql/data:/var/lib/mysql/:z
+        environment:
+            MYSQL_ROOT_PASSWORD : 123456
+        network_mode: host
+
+        #elastic:
+        #build: ./elasticsearch
+        #ports:  
+        #- "9200:9200"
+        #- "9300:9300"
+        #volumes:
+        #- ./elasticsearch/data:/usr/share/elasticsearch/data:rw
