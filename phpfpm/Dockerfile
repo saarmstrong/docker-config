@@ -17,7 +17,8 @@ RUN docker-php-ext-configure mcrypt --with-mcrypt \
 RUN docker-php-ext-install pdo_mysql 
 RUN docker-php-ext-configure intl  
 RUN docker-php-ext-install intl
-RUN docker-php-ext-install soap  mbstring 
+RUN docker-php-ext-install soap mbstring
+RUN docker-php-ext-install mysqli
 RUN pecl install redis && docker-php-ext-enable redis 
 
 RUN pecl install xdebug && docker-php-ext-enable xdebug
@@ -26,4 +27,4 @@ RUN sed -i -e "s/;error_log = log\/php-fpm.log/error_log = \/var\/log\/php-fpm.l
 RUN sed -i -e "s/;log_level = notice/log_level = debug/g" /usr/local/etc/php-fpm.d/www.conf
 RUN sed -i -e "s/;php_admin_flag[log_errors] = on/;php_admin_flag[log_errors] = on/g" /usr/local/etc/php-fpm.d/www.conf
 
-#RUN sed -i -e "s/;listen.mode = 0660/listen.mode = 0660/g"  \ -e "s/;env\[HOSTNAME\].*\$/env\[APPLICATION_ENV\] = local/g" /etc/php5/fpm/pool.d/www.conf
+RUN printf '[PHP]\ndate.timezone = "America/Los_Angeles"\n' > /usr/local/etc/php/conf.d/tzone.ini
